@@ -1,29 +1,39 @@
 import java.util.Scanner;
-import java.util.Random;
 
 public class KazuateGame {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
-        int answer = random.nextInt(100) + 1; // 1～100の乱数
-        int guess = 0;
-        int attempts = 0;
+        int answer = 77; // 設定値
+        int maxAttempts = 5;
+        boolean guessed = false;
 
-        System.out.println("1から100までの数字を当ててください！");
+        System.out.println("１～１００の正の整数を当ててください。");
+        System.out.println("5回まで予想できます。");
 
-        while (guess != answer) {
-            System.out.print("数字を入力してください: ");
-            guess = scanner.nextInt();
-            attempts++;
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            System.out.print(attempt + "回目の予想を入力してください: ");
+            int guess = scanner.nextInt();
 
-            if (guess < answer) {
-                System.out.println("もっと大きい数字です。");
-            } else if (guess > answer) {
-                System.out.println("もっと小さい数字です。");
+            if (guess == answer) {
+                System.out.println("当たり！");
+                guessed = true;
+                break;
             } else {
-                System.out.println("正解です！" + attempts + "回目で当てました。");
+                int diff = guess - answer;
+                if (Math.abs(diff) >= 20) {
+                    System.out.println("かなり違います。");
+                }
+                if (diff > 0) {
+                    System.out.println("もっと小さい数字です。");
+                } else {
+                    System.out.println("もっと大きい数字です。");
+                }
             }
+        }
+
+        if (!guessed) {
+            System.out.println("残念！正解は " + answer + " でした。");
         }
 
         scanner.close();
